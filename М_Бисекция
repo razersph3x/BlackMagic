@@ -1,0 +1,22 @@
+Program van;
+Var
+a,b,c,e,i,O,R,k:real;
+      Begin
+      e:=0.001;
+      a:=-3;
+      b:=0;
+      k:=0;
+      While b-a >= 2*e do
+      Begin
+      O:=(a*a*a*a)-8*(a*a*a)-2*(a*a)+16*a-3;
+      c:=(a+b)/2;
+      R:=(c*c*c*c)-(8*c*c*c)-(2*c*c)+(16*c)-3;
+      If O*R>0 then a:=c else b:=c;
+      c:=(a+b)/2;
+      Writeln(c);
+      k:=k+1;
+      End;
+      Writeln;
+      Writeln('Кол-во итераций: ',k);
+      Readln;
+      End.
