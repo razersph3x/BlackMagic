@@ -1,0 +1,27 @@
+Program kjb2;
+Var
+	a,b,t,x,eps,k: Real;
+
+Function f(x: Real): Real;
+Begin
+	{ Здесь прописываем функцию, корень которой ищем }
+	f:=(x*x*x*x)-8*(x*x*x)-2*(x*x)+16*x-3;
+End;
+
+Begin
+	a:=-3;
+	eps:=0.001;
+	b:=0;
+	x:=0;
+	k:=0;
+	{ Вычисляем в цикле, пока не достигнуто заданное приближение }
+	Repeat
+	k:=k+1;
+		x:=a-f(a)*(b-a)/(f(b)-f(a));
+		If f(a)*f(x)<=0 Then b:=x
+                   Else a:=x;
+                   Writeln( x:10:8);
+	Until abs(f(x))<=eps;
+	writeln('количество итераций :',k);
+
+End.
