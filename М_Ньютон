@@ -1,0 +1,32 @@
+program Newton;
+function f(x:real):real; 
+begin
+ f:=(x*x*x*x)-8*(x*x*x)-2*(x*x)+16*x-3;;
+end;
+function f1(x:real):real; 
+begin
+ f1:=4*(x*x*x)-24*(x*x)-4*x+16;
+end;
+var a,b,x,x1,eps,k,en:real;
+begin
+ a:=-3;
+ b:=0;
+ en:=abs(a-b);
+ x:=b;
+ x1:=a;
+ k:=0;
+ eps:=0.001;
+ while (en>eps) do begin 
+    x:= x1-(f(x1)/f1(x1));
+    writeln (x:10:14); 
+    en:=abs(x-b); 
+    b:=x1;
+    x1:=x;
+    k:=k+1; 
+ end;
+ writeln('количество итераций: ',k)
+end.
+
+// f1:=4*x*(x*x - 6*x - 1)+16;
+//4*x3-24x2-4x+16
+// 4*z-24*(x*x)-4*x+16
