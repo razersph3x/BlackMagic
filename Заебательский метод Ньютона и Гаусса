@@ -1,0 +1,122 @@
+uses crt;
+var d1,d2,e,x,y,u1,u2:real;
+//-----------------------------
+function f1(x:real;y:real):real;//уравнение 1
+begin
+     f1:=((x*x)+(y*y)+1)/5;
+end;
+function f2(x:real;y:real):real;//уравнение 2
+begin
+     f2:=((x*x)-(y*y)+2)/5;
+end;
+//-----------------------------
+begin
+     writeln('МЕТОД ПРОСТОЙ ИТЕРАЦИИ');
+     writeln('Введите начальные приближения:');
+     write('x0:= '); readln(x);//начальное приближение x
+     write('y0:= '); readln(y);//начальное приближение y
+     write('E:=0.01'); e:=0.01;//задаваемая точность
+//-----------------------------
+     u1:=f1(x,y);
+     u2:=f2(x,y);
+     d1:=abs(u1-x);
+     d2:=abs(u2-y);
+     x:=d1;
+     y:=d2;
+//-----------------------------
+     while ((d1>e) and (d2>e)) do
+     begin
+           u1:=f1(x,y);
+           u2:=f2(x,y);
+           d1:=abs(u1-x);
+           d2:=abs(u2-y);
+           x:=d1;
+           y:=d2;
+     end;
+//----------------------------
+     writeln;
+     write('Погрешность приближения:');
+     if d1<d2 then writeln(d1:4:4) else writeln(d2:4:4);
+     writeln('x=',u1:4:4);
+     writeln('y=',u2:4:4);
+end.
+uses crt;
+const n=2;
+var d1,d2,e,x,y,h1,h2,u1,u2:real;
+    a:array [1..n,1..n] of real;
+    b:array [1..n] of real;
+    i,j,k:integer;
+ 
+function f1:real;//уравнение 1
+begin
+     f1:=((x*x)+(y*y)-5*x+1);
+end;
+function f2:real;//уравнение 2
+begin
+     f2:=((x*x)-(y*y)-5*y+2);
+end;
+procedure liney;//решение системы линейных уравнений с помощью метода Гаусса
+var xx:array [1..n] of real;
+    k,i,j:integer;
+    m,s:real;
+begin
+     k:=1;
+     while k<=(n-1) do
+     begin
+          i:=k+1;
+          while i<=n do
+          begin
+               m:=a[i,k]/a[k,k];
+               a[i,k]:=0;
+               j:=k+1;
+               while j<=n do
+               begin
+                    a[i,j]:=a[i,j]-(m*a[k,j]);
+                    j:=j+1;
+               end;
+               b[i]:=b[i]-(m*b[k]);
+               i:=i+1;
+          end;
+          k:=k+1;
+     end;
+     xx[n]:=b[n]/a[n,n];
+     i:=n-1;
+     while i>=1 do
+     begin
+          j:=i+1;
+          s:=0;
+          while j<=n do
+          begin
+               s:=s+a[i,j]*xx[j];
+               j:=j+1;
+          end;
+          xx[i]:=(b[i]-s)/a[i,i];
+          i:=i-1;
+     end;
+     x:=xx[1];
+     y:=xx[2];
+end;
+ 
+begin
+     k:=0;
+     writeln('МЕТОД НЬЮТОНА:');
+     writeln('Введите начальные приближения:');
+     write('x0:= '); readln(x);
+     write('y0:= '); readln(y);
+     write('E:=0.01'); e:=0.001;
+     writeln;
+     repeat
+           a[1,1]:=2*x-5; a[1,2]:=2*y; //матрица Якоби
+           a[2,1]:=2*x;   a[2,2]:=-2*y-5; //
+           b[1]:=-f1;
+           b[2]:=-f2;
+           liney;
+           h1:=abs(f1);
+           h2:=abs(f2);
+           k:=k+1;
+     until (h1<e) and (h2<e);
+     writeln('КОРНИ УРАВНЕНИЙ:');
+     writeln('x=',x:4:4);
+     writeln('y=',y:4:4);
+     writeln('Количество итераций:',k);
+end.
