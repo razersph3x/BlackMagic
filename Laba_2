@@ -13,7 +13,7 @@ ITER,i,j:integer;
 max:real;
 
 {вычислние нормы}
-Function Norma(a:matr;ninetger):real;
+Function Norma(a:matr; n: integer):real;
 var
 i,j:integer;
 res:real;
