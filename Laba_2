@@ -1,0 +1,90 @@
+uses crt;
+const
+n=2;
+eps=1e-4;
+type
+matr=array[1..n,1..n] of real;
+vector=array[1..n] of double; 
+
+var
+a:matr;
+x,f,x0:vector;
+ITER,i,j:integer;
+max:real;
+
+{вычислние нормы}
+Function Norma(a:matr;ninetger):real;
+var
+i,j:integer;
+res:real;
+begin
+res:=0;
+for i:=1 to n do
+  for j:=1 to n do
+    res:=res+A[i,j]*A[i,j];
+Res:=sqrt(res);
+Norma:=res;
+end;
+
+{задание функции}
+{х-столбец значений переменных}
+{I-номер функции в системе}
+function func(x:vector;i:integer):real;
+begin
+case i of
+1:func:=(2-cos([x2]))/2;
+2:func:=(sin([x1]+1)-1);
+end;
+end;
+function MatrJacobi(x:vector;i,j:integer):real;
+begin
+case i of
+1: case j of 
+      1:MatrJacobi:=(cos([x1]+1));
+      2:MatrJacobi:=0;
+2: case j of
+      1:MatrJacobi:=(sin[x2]/4);
+      2:MatrJacobi:=0;
+end;
+end;
+end;
+ procedure vivod_matr(mat:matr;N1,N2:integer);
+ var
+ i,j:integer;
+ begin
+ for i:=1 to N do begin
+  for j:= 1 to N do write(mat[i,j:n1:N2,'  ']);
+  writeln;
+  end;
+  end;
+procedure vivod_vectr(vector:vector;N1,N2:integer);
+var j:integer;
+begin 
+for j:=1 to N do
+writeln('x',j,'=',vector[j]:n1:N2);
+end;
+
+begin
+clrscr;
+x0[1]:=0;
+x0[2]:=0;
+iter:=0;
+ repeat
+ for i:= 1 to n do
+ for j:= 1 to n do
+ a[i,j]:=MatrJacobi(x0,i,j);
+ vivod_vectr(x0,3,13);
+ writeln('norma',Norma(a,N));
+ writeln('nomer iterazii -',iter);
+ writeln(====================);
+ for i:=1 to n do 
+ X[i]:=func(x0,i);
+ max:=abs(X[1]-X0[1]);
+ for i:=2 to n do 
+ if abs(X[1]-X0[1])> max then
+ max:= abs(X[1]-X0[1]);
+ X0:=X;
+ inc(iter);
+ readln;
+ until(max<eps)or (iter>20);
+ end.
