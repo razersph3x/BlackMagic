@@ -1,0 +1,129 @@
+Program Nuton_without_obr_matr 
+uses crt; 
+const n=2;  
+type 
+matr=array[1..n,1..n] of double; 
+vector=array[1..n]of double; 
+Tmatr=array[1..n,1..n+1]of double; 
+const  
+eps=1e-11;  
+var  
+a:matr; 
+x,f,dx:vector; 
+iter,i,j:integer; 
+max:real;  
+{задание функции} 
+{x –столбец значений неизвестных } 
+{I номер функции в системе } 
+function func(x:vector;i:integer):real; 
+begin 
+case i of 
+1:func:=cos(x[1]+0.5)+x[2]-0.8 ; 
+{вычисляем значение первой функции  } 
+2:func:=sin(x[2])-2*x[1]-1.6 ; 
+{вычисляем значение второй функцию  } 
+end; 
+end;  
+{задание якобиана} 
+{x –столбец значений неизвестных } 
+{I,j индексы элементов матрицы Якоби } 
+{I - номер строки} 
+{j – номер столбца} 
+function jacobian(x:vector;i,j:integer):real; 
+begin case i of 
+1: case j of  
+1:jacobian:=-sin(x[1]+0.5)  ; 
+{вычисляем значение элемента матрицы Якоби с индексами 1,1}  
+2:jacobian:= 1 ;  
+{вычисляем значение элемента матрицы Якоби с индексами 1,2}  
+end;  
+2: case j of  
+1:jacobian:=-2     ;  
+{вычисляем значение  элемента матрицы Якоби с индексами 2,1}  
+2:jacobian:=cos(x[2]) ;     
+{вычисляем значение  элемента матрицы Якоби с индексами 2,2}  
+end; end; end;  
+{вывод вектора} 
+procedure vivod_vectr(vector:vector;N1,N2:integer); 
+var j:integer; 
+begin 
+for j:=1 to N do   
+ writeln('x',j,'= ',vector[j]:n1:N2); end;  
+{решение СЛАУ} 
+Procedure simq(Nn:integer;A:matr;var Bb:vector); 
+label m1; 
+const eps=1e-21; 
+var max,u,v:real; 
+ks,i,j,k1,l:integer; 
+Aa:Tmatr; 
+begin 
+For i:=1 to Nn do 
+Aa[i,Nn+1]:=Bb[i]; 
+For i:=1 to Nn do 
+For j:=1 to Nn do 
+Aa[i,j]:=A[i,j]; 
+For i:=1 to Nn do begin  
+max:=abs(Aa[i,i]);  
+k1:=i;  
+For L:=i+1 to Nn do 
+if (abs(Aa[l,i])>max) 
+then   
+begin   
+max:=abs(Aa[l,i]);   
+k1:=l;   
+End;  
+ if (max<eps)then   
+ begin   
+ ks:=1;   
+ goto m1;   
+ End  
+ else ks:=0;
+ if k1<>i 
+ then  
+ For j:=1 to Nn+1 do   
+ begin   
+ U:=Aa[i,j];   
+ Aa[i,j]:=Aa[k1,j];   
+ Aa[k1,j]:=u;   
+ End;  
+ V:=Aa[i,i];  
+ For j:=1 to Nn+1 do 
+ Aa[i,j]:=Aa[i,j]/v;  
+ For l:=i+1 to Nn do   
+ begin   
+ v:=Aa[l,i];   
+ For j:=I+1 to Nn+1 do 
+ Aa[l,j]:=Aa[l,j]-Aa[i,j]*V;   
+ End; End; 
+ Bb[Nn]:=Aa[Nn,Nn+1]; 
+ For i:=Nn-1 downto 1 do  
+ begin  Bb[i]:=Aa[i,Nn+1];  
+ For j:=i+1 to Nn do 
+ Bb[i]:=Bb[i]-Aa[i,j]*Bb[j]; 
+ End; M1: End;
+ 147 
+begin 
+clrscr; 
+x[1]:=0;
+{x[1]=x} 
+x[2]:=0;
+{x[2]=y} 
+iter:=0; 
+repeat   vivod_vectr(x,3,13);   
+writeln('nomer iterazii - ',iter);   
+writeln('=================');
+ {подсчет количества итераций}   
+ inc(iter); {вычисление значений элементов матрицы a}   
+ for i:=1 to n do  for j:=1 to n do   
+ a[i,j]:=jacobian(x,i,j);  
+ {вычисление правой части СЛАУ}   
+ for i:=1 to n do 
+ f[i]:=-1*func(x,i); {решение системы}   
+ simq(n,a,f);   
+ dx:=f;   
+ max:=abs(dx[1]);   
+ for i:=2 to n do if 
+ abs(dx[i])>max then max:=abs(dx[i]);   
+ for i:=1 to n do x[i]:=x[i]+dx[i]; 
+ until max<eps; readln; 
+ end.
