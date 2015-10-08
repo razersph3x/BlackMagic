@@ -1,0 +1,40 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Laba2_Ver._2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            double [] array = new double[2];
+            double eps = 0.001;
+            double y,y0,x,x0,G;
+            x = 0;
+            y = 1;
+            
+            do              
+            {
+                x0=x;
+                y0=y;
+                x= Func_x(x0,y0);
+                y= Func_y(x0,y0);
+            }
+            while (Math.Abs(x-x0) > eps);
+            Console.WriteLine("X= "+ x);
+            Console.WriteLine("Y= " + y);       
+ 
+        }
+        static double Func_x(double x,double y)
+        {
+            return (2-Math.Cos(y))/2;
+        }
+        static double Func_y(double x,double y)
+        {
+            return (Math.Sin(x + 1) - 1);
+        }
+        
+    }
+}
