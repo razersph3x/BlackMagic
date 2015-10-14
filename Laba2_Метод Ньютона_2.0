@@ -1,0 +1,73 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Laba2_Nuton
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            double[] array = new double[2];
+            double eps = 0.001;
+            double y, y0, x, x0, A, B, F1, F2, J, a, b;
+            x = 0;
+            y = 1;
+            do
+            {
+                a = x;
+                b = y;
+                A = ((Func_F1) / J);
+                B = ((Func_F2) / J);
+                x = Func_x(x0, y0);
+                y = Func_y(x0, y0);
+            }
+            while (Math.Abs(x - x0) > eps);
+            Console.WriteLine("X= " + x);
+            Console.WriteLine("Y= " + y);
+
+        }
+        static double Func_F1(double x, double y)
+        {
+            return (2 * x + Math.Cos(y) - 2);
+        }
+        static double Func_F2(double x, double y)
+        {
+            return (Math.Sin(x + 1) - y - 1);
+        }
+
+
+
+
+
+        static double Func_Df2y(double x, double y)
+        {
+            return (-1);
+        }
+
+        static double Func_Df1y(double x, double y)
+        {
+            return (-(Math.Sin(y)));
+        }
+        static double Func_x(double x, double y, double a, double A, double B)
+        {
+            x0 = a - (A * Func_Df2y) + (B * Func_Df1y);
+        }
+
+
+        static double Func_df2x(double x, double y)
+        {
+            return (Math.Sin(x + 1));
+        }
+
+        static double Func_df1x(double x, double y)
+        {
+            return (2);
+        }
+        static double Func_y(double x, double y, double b, double A, double B)
+        {
+            y0 = (b + A * Func_df2x) - (B * Func_df1x);
+        }
+    }
+}
