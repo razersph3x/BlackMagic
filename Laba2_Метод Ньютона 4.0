@@ -72,7 +72,7 @@ namespace Laba2_Nuton
 
         static double Func_df2x(double x, double y )
         {
-            return ( Math.Sin(x + 1));
+            return ( Math.Cos(x + 1));
         }
 
         static double Func_df1x(double x, double y)
