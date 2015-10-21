@@ -1,0 +1,95 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Laba2_Nuton
+{
+    class Program
+    {
+
+        static void Main(string[] args)
+        {
+            double[] array = new double[2];
+            double eps = 0.001;
+            double y, x, A, B, a, b,kfc1,kfc2;
+            x = 0;
+            y = 1;
+            do
+            {
+                a = x;
+                b = y;
+                A = ((Func_F1(x,y)) / Func_J(x,y));
+                B = (Func_F2(x,y) / (Func_df1x(x,y) * Func_Df2y(x,y)) - (Func_Df1y(x,y) * Func_df2x(x,y)));
+                x = Func_x(x,y,a,A,B);
+                y = Func_y(x,y,b,A,B);
+                double x_a = Math.Abs(x - a);
+                double x_b = Math.Abs(x - b);
+                double y_a = Math.Abs(y - a);
+                double y_b = Math.Abs(y - b);
+                if ((x_a + x_b) > (y_a + y_b))
+                {
+                    kfc1 = x_a;
+                    kfc2 = x_b;
+                }
+                else 
+                {
+                    kfc1 = y_a;
+                    kfc2 = y_b;
+                }
+            }
+            while ((kfc1 > eps) &&( kfc2 >eps));
+            Console.WriteLine("X= " + x);
+            Console.WriteLine("Y= " + y );   
+        }
+        // вычисление А и В
+        static double Func_F1(double x, double y)
+        {
+            double F1= (2 * x + Math.Cos(y) - 2);
+            return F1;
+        }
+        static double Func_F2(double x, double y)
+        {
+            return (Math.Sin(x + 1) - y - 1);
+        }
+        // заканчивается вычисление А и В
+        
+       //вычисление функций x и y
+        static double Func_Df2y(double x, double y) 
+        {
+            return (-1);
+        }
+
+        static double Func_Df1y(double x, double y)
+        {
+            return (-(Math.Sin(y)));
+        }
+        static double Func_x(double x, double y, double a, double A, double B)
+        {
+            double x0 = a - (A * Func_Df2y(x,y)) + (B * Func_Df1y(x,y));
+            return x0;
+        }
+
+        static double Func_df2x(double x, double y )
+        {
+            return ( Math.Sin(x + 1));
+        }
+
+        static double Func_df1x(double x, double y)
+        {
+            return (2);
+        }
+        static double Func_y(double x, double y, double b, double A, double B)
+        {
+           double y0 = (b + A * Func_df2x(x,y)) - (B * Func_df1x(x,y));
+            return y0;
+        }
+        // заканчивается вычисление х и y
+
+        static double Func_J(double x, double y)
+        {
+            double j = (Func_df1x(x, y) * Func_Df2y(x, y)) - (Func_Df1y(x, y) * Func_df2x(x, y));
+            return j;
+        }
+    }
+}
