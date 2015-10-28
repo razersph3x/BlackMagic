@@ -1,0 +1,43 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace LR_04
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int i,j;
+            double[,] arr = new double [4, 4]
+            {
+                {6.9000,0.0319,0.0390,0.0461},
+                {0.0191,6.0000,0.0333,0.0405},
+                {0.0134,0.0205,5.1000,0.0348},
+                {0.0077,0.0149,0.0220,4.2000}
+ 
+            };
+            Console.WriteLine("Матрица А коэффициентов системы :");
+            Console.WriteLine();
+            for (i = 0; i < 4; ++i)
+            {
+                for (j = 0; j < 4; ++j)
+                {
+                    Console.Write(String.Format("{0:0.0000}", arr[i, j]) + "  ");
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+            double[] arrb = new double[4] { 5.6632, 6.1119, 6.2000, 5.9275 };
+            Console.WriteLine("Столбец свободных членов b:");
+            Console.WriteLine();
+                for (j = 0; j < 4; ++j)
+                {
+                    Console.WriteLine(String.Format("{0:0.0000}", arrb[j]) + "  ");
+                }
+        }
+    }
+}
+   
