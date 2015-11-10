@@ -1,0 +1,71 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Gauss
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            double[,] a = new double[3, 3];
+            double[] b = new double[3];
+            double[] x = new double[10];
+            double r, g;
+            int n = 3;
+
+            a[0, 0] = 2.36; a[0, 1] = 2.37; a[0, 2] = 2.13;
+            a[1, 0] = 2.51; a[1, 1] = 2.40; a[1, 2] = 2.10;
+            a[2, 0] = 2.59; a[2, 1] = 2.41; a[2, 2] = 2.06;
+            b[0] = 1.48; b[1] = 1.92; b[2] = 2.16;
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    Console.Write("a[" + i + "," + j + "] = " + a[i, j] + "  ");
+                }
+                Console.Write("b[" + i + "] = " + b[i] + "  ");
+                Console.WriteLine();
+            }
+            //Прямой ход Гаусса
+            for (int k = 0; k < n; k++)
+            {
+                for (int j = k + 1; j < n; j++)
+                {
+                    r = a[j, k] / a[k, k];
+                    Console.WriteLine("r = " + r);
+                    for (int i = k; i < n; i++)
+                    {
+                        a[j, i] = a[j, i] - r * a[k, i];
+                        Console.Write("a[" + j + "," + i + "] = " + a[j, i] + "  ");
+                    }
+                    Console.WriteLine();
+                    b[j] = b[j] - r * b[k];
+                    Console.Write("b[" + j + "] = " + b[j] + "  ");
+                    Console.WriteLine();
+                }
+            }
+            //Обратный ход Гаусса
+
+            for (int k = 2; k > -1; k--)
+            {
+                r = 0;
+                for (int j = k + 1; j < n; j++)
+                {
+                    g = a[k, j] * x[j];
+                    r = r + g;
+                }
+                x[k] = (b[k] - r) / a[k, k];
+            }
+            Console.WriteLine("Корни системы: ");
+            for (int i = 0; i < n; i++)
+            {
+                Console.Write("x[" + i + "] = " + x[i] + "  ");
+            }
+            Console.WriteLine();
+            Console.ReadLine();
+        }
+    }
+}
