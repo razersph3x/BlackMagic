@@ -1,0 +1,93 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Holecki
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            double[,] a = new double[3, 3];
+            double[,] at = new double[3, 3];
+            double[,] l = new double[3, 3];
+            double[,] lt = new double[3, 3];
+            double[] b = new double[3];
+            double[] bt = new double[3];
+            double[] y = new double[3];
+            double[] x = new double[3];
+            int n = 3;
+
+            a[0, 0] = 2.36; a[0, 1] = 2.37; a[0, 2] = 2.13;
+            a[1, 0] = 2.51; a[1, 1] = 2.40; a[1, 2] = 2.10;
+            a[2, 0] = 2.59; a[2, 1] = 2.41; a[2, 2] = 2.06;
+            b[0] = 1.48; b[1] = 1.92; b[2] = 2.16;
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    Console.Write("a[" + i + "," + j + "] = " + a[i, j] + "  ");
+                }
+                Console.Write("b[" + i + "] = " + b[i] + "  ");
+                Console.WriteLine();
+            }
+            //Подсчет и вывод симметричной системы
+            Console.WriteLine("Подсчет и вывод симметричной системы");
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    at[i, j] = a[0, i] * a[0, j] + a[1, i] * a[1, j] + a[2, i] * a[2, j];
+                    Console.Write("at[" + i + "," + j + "] = " + at[i, j] + "  ");
+                }
+                bt[i] = a[0, i] * b[0] + a[1, i] * b[1] + a[2, i] * b[2];
+                Console.Write("bt[" + i + "] = " + bt[i] + "  ");
+                Console.WriteLine();
+            }
+            l[0, 0] = Math.Sqrt(at[0, 0]);
+            lt[0, 0] = l[0, 0];
+            l[1, 0] = at[0, 1] / l[0, 0];
+            lt[0, 1] = l[1, 0];
+            l[2, 0] = at[0, 2] / l[0, 0];
+            lt[0, 2] = l[2, 0];
+            l[1, 1] = Math.Sqrt(at[1, 1] - l[1, 0] * l[1, 0]);
+            lt[1, 1] = l[1, 1];
+            l[2, 1] = (at[2, 1] - l[1, 0] * l[2, 0]) / l[1, 1];
+            lt[1, 2] = l[2, 1];
+            l[2, 2] = Math.Sqrt(at[2, 2] - l[2, 0] * l[2, 0] - l[2, 1] * l[2, 1]);
+            lt[2, 2] = l[2, 2];
+            Console.WriteLine();
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    Console.Write("l[" + i + "," + j + "] = " + l[i, j] + "  ");
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    Console.Write("lt[" + i + "," + j + "] = " + lt[i, j] + "  ");
+                }
+                Console.WriteLine();
+            }
+            y[0] = bt[0] / l[0, 0];
+            y[1] = (bt[1] - l[1, 0] * y[0]) / l[1, 1];
+            y[2] = (bt[2] - l[2, 0] * y[0] - l[2, 1] * y[1]) / l[2, 2];
+            x[2] = y[2] / lt[2, 2];
+            x[1] = (y[1] - lt[1, 2] * x[2]) / lt[1, 1];
+            x[0] = (y[0] - lt[0, 1] * x[1] - lt[0, 2] * x[2]) / lt[0, 0];
+            Console.WriteLine("Корни системы: ");
+            for (int i = 0; i < n; i++)
+            {
+                Console.Write("x[" + i + "] = " + x[i] + "  ");
+            }
+            Console.ReadLine();
+        }
+    }
+}
